@@ -1,4 +1,3 @@
-import sqlite3
 import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -8,27 +7,23 @@ st.set_page_config(page_title="Dashboard Olist", layout="wide")
 
 st.title("📊 Dashboard E-commerce - Olist")
 
-# conexão
-conn = sqlite3.connect(r"C:\Users\Vinicius\Desktop\Comunidade DS\SQL\projeto_estatistica\Cópia de db_olist.sqlite")
-
 # -----------------------------
-# DADOS
+# DADOS (PARQUET)
 # -----------------------------
-df = pd.read_sql_query("SELECT * FROM vw_receita_mensal", conn)
-df_pedidos = pd.read_sql_query("SELECT * FROM vw_base_pedidos_mensais", conn)
-df_ticket = pd.read_sql_query("SELECT * FROM vw_ticket_medio_mensal", conn)
-df_entrega = pd.read_sql_query("SELECT * FROM vw_tempo_entrega", conn)
-df_reviews = pd.read_sql_query("SELECT * FROM vw_reviews_entrega", conn)
-df_geo = pd.read_sql_query("SELECT * FROM vw_receita_localidade", conn)
-df_vendedores = pd.read_sql_query("SELECT * FROM vw_vendedores_performance", conn)
-df_produtos = pd.read_sql_query("SELECT * FROM vw_produtos_categoria", conn)
+df = pd.read_parquet("receita.parquet")
+df_pedidos = pd.read_parquet("pedidos.parquet")
+df_ticket = pd.read_parquet("ticket.parquet")
+df_entrega = pd.read_parquet("entrega.parquet")
+df_reviews = pd.read_parquet("reviews.parquet")
+df_geo = pd.read_parquet("geo.parquet")
+df_vendedores = pd.read_parquet("vendedores.parquet")
+df_produtos = pd.read_parquet("produtos.parquet")
 
 # -----------------------------
 # 🔥 BASE ÚNICA (FATO)
 # -----------------------------
-df_fato = pd.read_sql_query("SELECT * FROM vw_fato_vendas", conn)
+df_fato = pd.read_parquet("fato.parquet")
 df_fato['mes'] = pd.to_datetime(df_fato['mes'])
-
 # tratamento
 for d in [df, df_pedidos, df_ticket]:
     d['mes'] = pd.to_datetime(d['mes'])
