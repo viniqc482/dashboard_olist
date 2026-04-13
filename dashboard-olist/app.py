@@ -8,8 +8,7 @@ st.set_page_config(page_title="Dashboard Olist", layout="wide")
 
 st.title("📊 Dashboard E-commerce - Olist")
 
-# conexão
-conn = sqlite3.connect(r"C:\Users\Vinicius\Desktop\Comunidade DS\SQL\projeto_estatistica\Cópia de db_olist.sqlite")
+df = pd.read_parquet("receita.parquet")
 
 # -----------------------------
 # DADOS
